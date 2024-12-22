@@ -1,0 +1,46 @@
+# Import the necessary library
+import pandas as pd
+
+# Load the data from the CSV file
+file_path = '/mnt/data/data.csv'
+data = pd.read_csv(file_path)
+
+# Display the initial data
+print("Initial Data:")
+print(data.head())
+
+# 1. Handling missing values
+# Fill missing numeric values with their column mean
+data.fillna(data.mean(numeric_only=True), inplace=True)
+
+# Drop rows with any remaining missing values
+data.dropna(inplace=True)
+
+# 2. Remove duplicate rows
+data.drop_duplicates(inplace=True)
+
+# Display data after cleaning
+print("\nData After Cleaning:")
+print(data.head())
+
+# 3. Basic data manipulation operations
+
+# Filtering: Filter rows where 'Pulse' is greater than 110
+filtered_data = data[data['Pulse'] > 110]
+print("\nFiltered Data (Pulse > 110):")
+print(filtered_data)
+
+# Sorting: Sort data by 'Calories' in descending order
+sorted_data = data.sort_values(by='Calories', ascending=False)
+print("\nData Sorted by Calories (Descending):")
+print(sorted_data.head())
+
+# Grouping: Group data by 'Duration' and calculate the mean of 'Calories'
+grouped_data = data.groupby('Duration')['Calories'].mean()
+print("\nGrouped Data (Mean Calories by Duration):")
+print(grouped_data)
+
+# Save the cleaned and manipulated data to a new CSV file
+cleaned_file_path = '/mnt/data/cleaned_data.csv'
+data.to_csv(cleaned_file_path, index=False)
+print(f"\nCleaned data has been saved to: {cleaned_file_path}")
