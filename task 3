@@ -1,0 +1,53 @@
+from bs4 import BeautifulSoup
+from google.colab import files
+
+# Step 1: Upload the HTML file to Colab
+uploaded = files.upload()
+
+# Step 2: Define the file path (assuming the uploaded file is named 'example.html')
+file_path = "/content/example.html"  
+
+# Step 3: Open the file and read its content
+with open(file_path, 'r', encoding='utf-8') as file:  
+    html_content = file.read()
+
+# Step 4: Parse the HTML content using BeautifulSoup
+soup = BeautifulSoup(html_content, 'html.parser')
+
+# Step 5: Extract text content from the page
+print("\nExtracted Text:")
+text_content = soup.get_text()
+print(text_content.strip())
+
+# Step 6: Extract all links from the page
+print("\nExtracted Links:")
+links = soup.find_all('a')
+for link in links:
+    href = link.get('href')
+    if href:
+        print(href)
+
+# Step 7: Extract all image sources from the page
+print("\nExtracted Image Sources:")
+images = soup.find_all('img')
+for img in images:
+    src = img.get('src')
+    if src:
+        print(src)                   
+
+
+/* output : Extracted Text:
+Sample Static Page
+
+
+Welcome to the Sample Page
+This is a simple static web page for web scraping practice.
+About Us
+Contact Us
+
+Extracted Links:
+https://example.com/about
+https://example.com/contact
+
+Extracted Image Sources:
+https://via.placeholder.com/150     */
